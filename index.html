@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIRUS AURA OFFICIAL</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+:root{
+  --bg:#000;
+  --text:#ff0000;
+  --btn:#ff0000;
+  --card:#0a0a0a;
+}
+.light{
+  --bg:#ffffff;
+  --text:#000000;
+  --btn:#abe7ff;
+  --card:#ffffff;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Share Tech Mono', monospace}
+body{
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  transition:0.3s;
+}
+
+/* BG Video */
+#bgvideo{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  z-index:-2;
+  filter:brightness(0.4) contrast(1.2);
+}
+.overlay{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,0.5);
+  z-index:-1;
+}
+.light .overlay{background:rgba(253, 7, 7, 0.7)}
+
+.container{
+  padding:20px;
+  max-width:500px;
+  margin:auto;
+  position:relative;
+  z-index:1;
+}
+
+h1{
+  text-align:center;
+  font-size:1.4rem;
+  margin-top:15px;
+  text-shadow:0 0 10px var(--text);
+  animation:glitch 2s infinite;
+}
+.br3{line-height:3}
+.welcome{
+  text-align:center;
+  font-size:0.9rem;
+  opacity:0.8;
+  margin-bottom:20px;
+}
+
+/* Logo */
+.logo{
+  width:120px;height:120px;
+  margin:20px auto;
+  border-radius:50%;
+  border:2px solid var(--text);
+  box-shadow:0 0 20px var(--text);
+  overflow:hidden;
+}
+.logo img{width:100%;height:100%;object-fit:cover}
+
+/* Buttons */
+.btn{
+  display:block;
+  width:100%;
+  padding:14px;
+  margin:12px 0;
+  background:transparent;
+  border:2px solid var(--btn);
+  color:var(--text);
+  font-size:1rem;
+  text-align:center;
+  cursor:pointer;
+  transition:0.2s;
+  text-decoration:none;
+  backdrop-filter:blur(5px);
+}
+.btn:hover{
+  background:var(--btn);
+  color:var(--bg);
+  box-shadow:0 0 15px var(--text);
+}
+
+/* Telegram logo black */
+.telegram-logo{
+  width:50px;margin:20px auto 10px;
+  filter:grayscale(1) brightness(0);
+}
+
+/* Videos grid */
+.videos{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:25px;
+}
+.video-thumb{
+  position:relative;
+  aspect-ratio:16/9;
+  border:1px solid var(--text);
+  overflow:hidden;
+  cursor:pointer;
+  backdrop-filter:blur(3px);
+}
+.video-thumb img{width:100%;height:100%;object-fit:cover}
+.video-thumb::after{
+  content:'▶';
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  font-size:2rem;
+  color:#ffffff;
+  text-shadow:0 0 10px #000;
+}
+
+/* Settings icon */
+.settings{
+  position:fixed;
+  top:15px;right:15px;
+  font-size:1.5rem;
+  cursor:pointer;
+  z-index:10;
+}
+
+/* Settings panel */
+.panel{
+  position:fixed;
+  top:0;right:-100%;
+  width:80%;max-width:300px;
+  height:100%;
+  background:var(--card);
+  border-left:2px solid var(--text);
+  padding:20px;
+  transition:0.3s;
+  z-index:11;
+  overflow-y:auto;
+}
+.panel.active{right:0}
+.close{float:right;cursor:pointer;font-size:1.3rem}
+
+/* Login form */
+input{
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  background:transparent;
+  border:1px solid var(--text);
+  color:var(--text);
+}
+
+/* Toggle switch */
+.toggle{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:20px 0;
+}
+.switch{
+  width:60px;height:30px;
+  background:#333;
+  border-radius:30px;
+  position:relative;
+  cursor:pointer;
+}
+.switch::after{
+  content:'';
+  width:26px;height:26px;
+  background:var(--text);
+  border-radius:50%;
+  position:absolute;
+  top:2px;left:2px;
+  transition:0.3s;
+}
+.switch.dark::after{left:32px}
+
+@keyframes glitch{
+ 0%,100%{text-shadow:0 0 10px var(--text)}
+ 50%{text-shadow:2px 0 red,-2px 0 blue}
+</style>
+</head>
+<body>
+
+<video autoplay muted loop playsinline id="bgvideo">
+  <source src="bgvideo.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+
+<div class="settings" onclick="togglePanel()">⚙️</div>
+
+<div class="panel" id="panel">
+  <span class="close" onclick="togglePanel()">✕</span>
+  <h2 data-en="Settings" data-si="සැකසුම්" data-ta="அமைப்புகள்">Settings</h2>
+
+  <h3 data-en="1. Login" data-si="1. පිවිසුම" data-ta="1. உள்நுழைவு">1. Login</h3>
+  <input type="text" placeholder="Username" id="user">
+  <input type="password" placeholder="Password" id="pass">
+  <button class="btn" onclick="login()" data-en="Login" data-si="ඇතුලට" data-ta="உள்நுழை">Login</button>
+
+  <h3 data-en="2. Language" data-si="2. භාෂාව" data-ta="2. மொழி">2. Language</h3>
+  <button class="btn" onclick="setLang('en')">English</button>
+  <button class="btn" onclick="setLang('si')">සිංහල</button>
+  <button class="btn" onclick="setLang('ta')">தமிழ்</button>
+
+  <h3>3. Theme</h3>
+  <div class="toggle">
+    <span data-en="Dark/Light" data-si="අඳුරු/එළිය" data-ta="இருள்/ஒளி">Dark/Light</span>
+    <div class="switch" id="themeSwitch" onclick="toggleTheme()"></div>
+  </div>
+</div>
+
+<div class="container">
+  <h1>VIRUS AURA OFFICIAL WEB👻</h1>
+  <div class="br3"></div>
+  <div class="welcome">welcome back virus aura official website</div>
+
+  <div class="logo">
+    <img src="https://yt3.googleusercontent.com/ytc/AIdro_nuEo9qX9oU9qX9oU9qX9oU=s900-c-k-c0x00ffffff-no-rj" alt="logo">
+  </div>
+
+  <a href="https://youtube.com/@virus_aura?si=YpPtjZqf-LnPZIFk" target="_blank" class="btn">open yt channel</a>
+  <a href="https://t.me/virus_Aura" target="_blank" class="btn">Telegram channel</a>
+
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="telegram-logo">
+  <a href="https://t.me/Darck_king1" target="_blank" class="btn">owner contact</a>
+
+  <div class="videos" id="videoGrid"></div>
+</div>
+
+<script>
+// Videos
+const videos = [
+  "9GE3brCEQkQ","mtDykBbuwW0","-_oXwyNv8io",
+  "l7mFzJ4MHfA","a4D0_j5Yrh0","XQLdOXUk-RE"
+];
+const grid = document.getElementById('videoGrid');
+videos.forEach(id=>{
+  const div = document.createElement('div');
+  div.className='video-thumb';
+  div.innerHTML = `<img src="https://img.youtube.com/vi/${id}/mqdefault.jpg">`;
+  div.onclick = ()=> window.open(`https://youtu.be/${id}`,'_blank');
+  grid.appendChild(div);
+});
+
+// Panel toggle
+function togglePanel(){
+  document.getElementById('panel').classList.toggle('active');
+}
+
+// Login - demo only
+function login(){
+  const u=document.getElementById('user').value;
+  const p=document.getElementById('pass').value;
+  if(u&&p) alert('Login Success: '+u);
+  else alert('Enter details');
+}
+
+// Language change
+function setLang(lang){
+  document.querySelectorAll('[data-'+lang+']').forEach(el=>{
+    el.innerText = el.getAttribute('data-'+lang);
+  });
+  localStorage.setItem('lang',lang);
+}
+
+// Dark/Light mode
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  document.getElementById('themeSwitch').classList.toggle('dark');
+  localStorage.setItem('theme',document.body.classList.contains('light')?'light':'dark');
+}
+
+// Load saved settings
+window.onload=()=>{
+  const lang=localStorage.getItem('lang')||'en';
+  setLang(lang);
+  if(localStorage.getItem('theme')==='light'){
+    document.body.classList.add('light');
+    document.getElementById('themeSwitch').classList.add('dark');
+  }
+}
+</script>
+</body>
+</html>
